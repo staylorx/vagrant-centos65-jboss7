@@ -22,6 +22,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 9990, host: 19990
+  config.vm.network "forwarded_port", guest: 8080, host: 18080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -51,12 +53,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# vb.gui = true
 
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
   #
   
   config.vm.provision :shell, path: "provisioning/bootstrap.sh"
-	
+  config.vm.provision :shell, path: "provisioning/setbashrc.sh", privileged:false
+  	
   #config.vm.provision "ansible" do |ansible|
   #  ansible.playbook = "provisioning/playbook.yml"
 	#ansible.extra_vars = { ansible_ssh_user: 'vagrant', ntp_server: "pool.ntp.org" }
